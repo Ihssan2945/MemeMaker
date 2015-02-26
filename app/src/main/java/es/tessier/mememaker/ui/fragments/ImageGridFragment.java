@@ -40,6 +40,7 @@ public class ImageGridFragment extends Fragment {
         mGridView = (GridView) rootView.findViewById(R.id.gridView);
         mGridAdapter = new GridViewAdapter(this.getActivity(), R.layout.view_grid, extractFiles());
         mGridView.setAdapter(mGridAdapter);
+
         mGridView.setOnItemClickListener(mOnItemClickListener);
         mGridView.setOnItemLongClickListener(mOnItemLongClickListener);
         this.setHasOptionsMenu(true);
@@ -59,6 +60,7 @@ public class ImageGridFragment extends Fragment {
             startActivityForResult(intent, RESULT_LOAD_IMAGE);
         } else {
             if (item.getItemId() == R.id.settings_action) {
+
                 Intent intent = new Intent(this.getActivity(), MemeSettingsActivity.class);
                 startActivity(intent);
             }
@@ -69,17 +71,21 @@ public class ImageGridFragment extends Fragment {
 
     private ArrayList extractFiles() {
         final ArrayList imageItems = new ArrayList();
-        File [] ficheros = FileUtilities.hola(getActivity());
-        for (int i=0;i<ficheros.length;i++){
-            Bitmap foto = BitmapFactory.decodeFile(ficheros[i].getAbsolutePath());
-            ImageGridItem foto2 = new ImageGridItem(foto,ficheros[i].getName(),ficheros[i].getAbsolutePath());
-            imageItems.add(foto2);
+        File[] ficheros = FileUtilities.filtrado(getActivity());
+        for(int i =0 ;i<ficheros.length;i++)
+        {
+            Bitmap imagen = BitmapFactory.decodeFile(ficheros[i].getAbsolutePath());
+            ImageGridItem item=new ImageGridItem(imagen,ficheros[i].getName(),ficheros[i].getAbsolutePath());
+            imageItems.add(item);
         }
+
         return imageItems;
     }
 
     private void resetGridAdapter() {
+
         mGridAdapter = new GridViewAdapter(this.getActivity(), R.layout.view_grid, extractFiles());
+
         mGridView.setAdapter(mGridAdapter);
     }
 
@@ -105,6 +111,7 @@ public class ImageGridFragment extends Fragment {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+
                             File fileToDelete = new File(imageGridItem.getFullPath());
                             boolean deleted = fileToDelete.delete();
                             if (deleted) {

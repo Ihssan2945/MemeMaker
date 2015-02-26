@@ -27,6 +27,7 @@ public class MemeMakerApplicationSettings {
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(KEY_STORAGE,getStoragePreference());
+        editor.apply();
 
 
     }
